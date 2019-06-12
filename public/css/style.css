@@ -1,0 +1,494 @@
+/*
+*
+*   CSS
+*
+*/
+
+
+/* ========= FONT ========= */
+
+@font-face {
+    font-family: Ubuntu-Regular;
+    src: url('../fonts/ubuntu/Ubuntu-Regular.ttf');
+}
+
+@font-face {
+    font-family: Ubuntu-Bold;
+    src: url('../fonts/ubuntu/Ubuntu-Bold.ttf');
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Ubuntu-Regular, sans-serif;
+    font-size: 13px;
+    position: relative;
+}
+
+input:focus, a:focus, button:focus {
+    outline-style: none;
+}
+
+::-moz-selection {
+    background: white;
+}
+
+::selection {
+    background: white;
+}
+
+/*---------------------------------------------*/
+
+a {
+    font-family: Ubuntu-Regular;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #666666;
+    margin: 0px;
+    transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    text-decoration: none;
+}
+
+a:focus {
+    outline: none !important;
+    color: #1a535c;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #1a535c;
+}
+
+/*---------------------------------------------*/
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0px;
+}
+
+p {
+    font-family: Ubuntu-Regular;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #666666;
+    margin: 0px;
+}
+
+ul, li {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+/*---------------------------------------------*/
+
+input, textarea, select {
+    outline: none;
+    border: none;
+}
+
+textarea:focus, input:focus {
+    border-color: transparent;
+}
+
+input::-webkit-input-placeholder {
+    color: #8f8fa1;
+}
+
+input:-moz-placeholder {
+    color: #8f8fa1;
+}
+
+input::-moz-placeholder {
+    color: #8f8fa1;
+}
+
+input:-ms-input-placeholder {
+    color: #8f8fa1;
+}
+
+textarea::-webkit-input-placeholder {
+    color: #8f8fa1;
+}
+
+textarea:-moz-placeholder {
+    color: #8f8fa1;
+}
+
+textarea::-moz-placeholder {
+    color: #8f8fa1;
+}
+
+textarea:-ms-input-placeholder {
+    color: #8f8fa1;
+}
+
+label {
+    display: block;
+    margin: 0;
+}
+
+/*---------------------------------------------*/
+
+button {
+    outline: none !important;
+    border: none;
+    background: transparent;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+iframe {
+    border: none !important;
+}
+
+/*---------------------------------------------*/
+
+.input {
+    font-family: Ubuntu-Bold;
+    color: #1a535c;
+    line-height: 1.2;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    background: transparent;
+    height: 62px;
+    padding: 0 20px 0 38px;
+}
+
+.focus-input {
+    position: absolute;
+    display: block;
+    width: calc(100% + -28px);
+    height: calc(100% - 31px);
+    top: 16px;
+    left: 14px;
+    pointer-events: none;
+    border: 1px solid #2892d7;
+    border-radius: 3px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.4s;
+    transform: scaleX(1.1) scaleY(1.1);
+}
+
+.input:focus+.focus-input {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.eff-focus-selection {
+    visibility: visible;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.actionBar .glyphicon-search, .actionBar .glyphicon-refresh {
+    -webkit-text-stroke: 0.75px black;
+}
+
+.btn-group .glyphicon-search {
+    -webkit-text-stroke: 0.75px white;
+}
+
+.title-wrapper {
+    font-family: Ubuntu-Bold;
+    font-size: 30px;
+    color: #1a535c;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: left;
+    width: 100%;
+    display: block;
+    padding-top: 60px;
+    padding-left: 20px;
+}
+
+td .btn-default {
+    border-color: black;
+}
+
+.command-view {
+    background-color: #3CBDA5;
+}
+
+.command-view:hover {
+    background-color: #55d6be;
+}
+
+.command-edit {
+    background-color: #1a535c;
+}
+
+.command-edit:hover {
+    background-color: #35595f;
+}
+
+.command-delete {
+    background-color: #d63b53;
+}
+
+.command-delete:hover {
+    background-color: #da6375;
+}
+
+.command-edit .fa, .command-view .fa, .command-delete .fa {
+    color: #f4f9f7;
+}
+
+/* ========= TABLE ========= */
+
+.bootgrid-footer {
+    z-index: -1;
+}
+
+.table {
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.table th {
+    font-family: Ubuntu-Bold;
+    font-size: 18px;
+    line-height: 1.4;
+    background-color: #55d6be;
+}
+
+.table th:active, .table th:hover {
+    background: #3CBDA5;
+}
+
+.table th span, .table th {
+    color: #f4f9f7;
+}
+
+.bootgrid-table tr {
+    cursor: pointer;
+}
+
+.bootgrid-table td {
+    font-family: Ubuntu-Regular;
+    font-size: 15px;
+    color: #808080;
+    line-height: 1.4;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #f8f6ff;
+}
+
+.table-hover>tbody>tr:hover {
+    background-color: #c2dad5;
+}
+
+.table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>thead>tr>th {
+    padding: 10px;
+}
+
+/* ========= PAGINATION ========= */
+
+.pagination li a {
+    border: none;
+    border-radius: 50%;
+    margin: 0 1px;
+    color: #808080;
+    cursor: pointer;
+}
+
+.pagination li:hover a {
+    color: #3CBDA5;
+}
+
+.pagination li.active a {
+    color: #808080;
+    background-color: transparent;
+    border: 1px solid #55d6be;
+}
+
+.pagination li.active:hover a {
+    color: #f4f9f7;
+    background-color: #55d6be;
+    border-color: #3CBDA5;
+}
+
+.pagination li.last a, .pagination li.first a {
+    border-radius: 50%;
+}
+
+/*-------------------- INVOICE -------------------------*/
+
+.container-fluid {
+    /* overflow-y: hidden; */
+    background-color: pink;
+    height: 100vh;
+}
+
+.inv__container {
+    display: block;
+    margin: 30px auto 50px;
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,.2);
+    width: 768px;
+    padding: 64px;
+    background: #fff;
+    max-width: 100%;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+.form>ul {
+    font-size: 14px;
+    color: #f4f9f7;
+    background-color: #d63b53;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+}
+
+input[readonly], textarea[readonly]:focus, input[readonly]:focus {
+    border: 1px solid #d63b53;
+}
+
+.container-form {
+    width: 100%;
+    padding: 50px 0px 55px 0px;
+}
+
+.container-form .input {
+    height: 42px;
+    width: 100%;
+    position: relative;
+    background-color: #e6e6e6;
+    border-radius: 3px;
+    margin-bottom: 16px;
+    padding: 0 20px;
+}
+
+.container-form .wrap-input {
+    background-color: transparent;
+    margin-bottom: 0px;
+}
+
+.form-btn-container {
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-btn {
+    font-family: Ubuntu-Bold;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px;
+    height: 42px;
+    background-color: #2892d7;
+    border-radius: 3px;
+    transition: all 0.4s;
+}
+
+.form-btn:hover {
+    background-color: #1d699c;
+}
+
+.btn-danger {
+    background-color: #d63b53;
+}
+
+.btn-danger:hover {
+    background-color: #a02c3e;
+}
+
+.form-btn.btn-default {
+    color: #808080;
+    background-color: #f4f9f7;
+    border: 1px solid #ccc;
+}
+
+.form-btn.btn-default:hover {
+    color: #333333;
+    background-color: #e6e6e6;
+    border-color: #808080;
+}
+
+.form-btn .fa {
+    margin-right: 10px;
+}
+
+.form-btn:disabled {
+    background-color: #1a535c;
+}
+
+.container-form-btn {
+    margin-top: 30px;
+}
+
+.button-block {
+    display: flex;
+}
+
+.button-block>* {
+    margin-right: 10px;
+}
+
+.button-block>*:last-child {
+    margin-right: 0px;
+}
+
+.form-space {
+    margin: 30px 0;
+}
+
+label {
+    font-family: Ubuntu-Regular;
+    color: #808080;
+    line-height: 1.2;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+}
+
+.badge-danger {
+    position: relative;
+    background-color: #d63b53;
+    margin-right: 10px;
+    top: -1px;
+}
+
+.invalid-feedback {
+    top: 65px;
+    color: #d63b53;
+    position: absolute;
+}
