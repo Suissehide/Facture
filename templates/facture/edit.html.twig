@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Facture
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+      .tmp-element {
+        visibility: hidden;
+        white-space: pre;
+      }
+    </style>
+{% endblock %}
+
+{% form_theme form _self %}
+
+{% block form_widget_simple %}
+    {% set type = type|default('text') %}
+    {% if type == 'range' or type == 'color' %}
+        {% set required = false %}
+    {% endif %}
+     <div class="resizing-input wrap-input">
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        <i class="focus-input"></i>
+        <span style="display:none"></span>
+    </div>
+{% endblock form_widget_simple %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="inv__container">
+            {{ form_start(form, {'attr': {'class': 'form validate-form container-form', 'autocomplete' : 'off'} }) }}
+            {{ form_errors(form) }}
+
+            <div class="inv__section inv__section--one">
+                <div class="inv__header">
+                    <h1 class="inv__title">Facture</h1>
+                    <div class="inv__flex">
+                        <h6>faites par</h6>
+                        {{ form_widget(form.myCompany, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }} </div>
+                </div>
+                <div class="inv__date">
+                    {{ form_widget(form.invoiceDate, {'attr': {'class': 'input datepicker-here', 'autocomplete' : 'off'} }) }}
+                </div>
+            </div>
+            <div class="inv__section inv__section--two">
+                <div class="inv__header">
+                    <h6>Facturé à</h6>
+                    {{ form_widget(form.clientCompany, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                </div>
+                <div class="inv__header">
+                    <h6>Moyen de paiement</h6>
+                    {{ form_widget(form.paymentMethods, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                </div>
+            </div>
+
+            {# <div class="container-form-btn">
+                {{ form_widget(form.validation, {'attr': {'class': 'form-btn'} }) }}
+            </div> #}
+
+            {{ form_row(form._token) }}
+            {{ form_end(form, {'render_rest' : false}) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/datepicker.js') }}"></script>
+    <script src="{{ asset('js/datepicker.fr.js') }}"></script>
+    <script>
+        $(window).on('load', function() {
+            var $inputs = $('.resizing-input');
+            var padding = 30;
+
+            // Resize based on text if text.length > 0
+            // Otherwise resize based on the placeholder
+            function resizeForText(text) {
+                var $this = $(this);
+                if (!text.trim()) {
+                    text = $this.attr('placeholder').trim();
+                }
+                var $span = $this.parent().find('span');
+                $span.text(text);
+                var $inputSize = $span.outerWidth();
+                $this.css("width", $inputSize).css("width", "+=" + padding + "px");
+            }
+
+            $inputs.find('input').keypress(function (e) {
+                if (e.which && e.charCode) {
+                    var c = String.fromCharCode(e.keyCode | e.charCode);
+                    var $this = $(this);
+                    resizeForText.call($this, $this.val() + c);
+                }
+            });
+
+            // Backspace event only fires for keyup
+            $inputs.find('input').keyup(function (e) { 
+                if (e.keyCode === 8 || e.keyCode === 46) {
+                    resizeForText.call($(this), $(this).val());
+                }
+            });
+
+            $inputs.find('input').each(function () {
+                var $this = $(this);
+                resizeForText.call($this, $this.val())
+            });
+        });
+    </script>
+{% endblock %}
