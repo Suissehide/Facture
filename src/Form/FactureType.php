@@ -9,6 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class FactureType extends AbstractType
 {
@@ -43,20 +45,42 @@ class FactureType extends AbstractType
                 'format' => 'dd/MM/yyyy',
                 'required' => true,
                 'attr' => array(
+                    'placeholder' => 'Date d\'échéance',
                     'data-language' => 'fr'
                 )
             ))
-            ->add('projectDescription')
+            ->add('projectDescription', TextareaType::class, array(
+                'attr' => array(
+                    'placeholder' => 'Description du projet'
+                )
+            ))
             ->add('paymentMethods', ChoiceType::class, array(
+                'placeholder' => '',
                 'choices' => array(
-                    'Carte de crédit' => 'Carte de crédit',
+                    'Carte bancaire' => 'Carte bancaire',
+                    'Virement bancaire' => 'Virement bancaire',
+                    'Chèque' => 'Chèque',
                     'PayPal' => 'PayPal',
+                    'Autre' => 'Autre',
                 ),
             ))
             ->add('details')
-            ->add('invoiceNumber')
-            ->add('referenceNo')
-            ->add('invoiceTerms')
+            ->add('invoiceNumber', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => '############',
+                ),
+            ))
+            ->add('referenceNo', TextType::class, array(
+                'attr' => array(
+                    'placeholder' => '############',
+                ),
+            ))
+            ->add('invoiceTerms', TextareaType::class, array(
+                'attr' => array(
+                    'placeholder' => '14 jours de préavis',
+                ),
+            ))
+            ->add('save', SubmitType::class)
         ;
     }
 

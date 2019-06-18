@@ -173,6 +173,14 @@ iframe {
     border: none !important;
 }
 
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
 /*---------------------------------------------*/
 
 .input {
@@ -187,6 +195,7 @@ iframe {
     background-color: #e6e6e6;
     border-radius: 3px;
     padding: 0 15px;
+    margin: 0;
 }
 
 .resizing-input input, .resizing-input span {
@@ -376,7 +385,7 @@ input[readonly], textarea[readonly]:focus, input[readonly]:focus {
 
 .container-form {
     width: 100%;
-    padding: 50px 0px 55px 0px;
+    padding: 40px 0px 45px 0px;
 }
 
 .container-form .wrap-input {
@@ -487,10 +496,40 @@ label {
 
 /*-------------------- INVOICE -------------------------*/
 
+.btn-bar {
+    position: fixed;
+    display: flex;
+    flex-flow: row;
+    bottom: 50px;
+    right: 20px;
+}
+
+.btn-round {
+    height: 50px;
+    width: 50px;
+    color: #333;
+    background-color: #F0EBF4;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: 0.3s ease;
+}
+
+.btn-round:hover {
+    color: #E64398;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.btn-round:active, .btn-round:active:focus, .btn-round:visited {
+    color: #E64398;
+    background-color: #d4d4d4;
+    border-color: #8c8c8c;
+}
+
 .container-fluid {
     /* overflow-y: hidden; */
     background-color: #F172A1;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .inv__container {
@@ -536,12 +575,58 @@ label {
     margin: 30px 0 0;
 }
 
+.inv__section--three {
+    margin: 30px 0 0;
+}
+
+.inv__section--four {
+    margin: 30px 0 0;
+}
+
+.inv__section--five {
+    margin: 30px 0 0;
+    flex-flow: column;
+}
+
 .inv__flex {
     display: flex;
     align-items: baseline;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.inv__flex > div:not(:last-child) {
+    margin-right: 10px;
+}
+
+.inv__flex-1 {
+    flex: 22%;
+}
+
+.inv__flex-2 {
+    flex: 28%;
 }
 
 .inv__date {
     margin: 0 0 0 16px;
     text-align: right;
+}
+
+.inv__dueDate {
+    margin: 5px 0;
+    justify-content: center;
+}
+
+.inv__dueDate > h6 {
+    color: #E64398 !important;
+}
+
+.inv__description, .inv__terms {
+    width: 100%;
+}
+
+.inv__description textarea, .inv__terms textarea {
+    height: 30px;
+    padding: 7px 15px 0 15px;
 }

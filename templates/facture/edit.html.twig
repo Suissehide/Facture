@@ -4,12 +4,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <style>
-      .tmp-element {
-        visibility: hidden;
-        white-space: pre;
-      }
-    </style>
+
 {% endblock %}
 
 {% form_theme form _self %}
@@ -38,29 +33,109 @@
                     <h1 class="inv__title">Facture</h1>
                     <div class="inv__flex">
                         <h6>faites par</h6>
-                        {{ form_widget(form.myCompany, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }} </div>
+                        {{ form_widget(form.myCompany, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                    </div>
                 </div>
                 <div class="inv__date">
                     {{ form_widget(form.invoiceDate, {'attr': {'class': 'input datepicker-here', 'autocomplete' : 'off'} }) }}
                 </div>
             </div>
+
             <div class="inv__section inv__section--two">
                 <div class="inv__header">
                     <h6>Facturé à</h6>
                     {{ form_widget(form.clientCompany, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
                 </div>
                 <div class="inv__header">
+                    <h1><span class="symbol">€</span>0.00</h1>
+                    <div class="inv__flex inv__dueDate">
+                        <h6>À payer le </h6>
+                        <div>
+                        {{ form_widget(form.dueDate, {'attr': {'class': 'input datepicker-here', 'autocomplete' : 'off'} }) }}
+                        </div>
+                    </div>
                     <h6>Moyen de paiement</h6>
                     {{ form_widget(form.paymentMethods, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
                 </div>
             </div>
 
-            {# <div class="container-form-btn">
-                {{ form_widget(form.validation, {'attr': {'class': 'form-btn'} }) }}
-            </div> #}
+            <div class="inv__section inv__section--three">
+                <div class="inv__header inv__description">
+                    <h6>Facture de </h6>
+                    <div class="wrap-input">
+                        {{ form_widget(form.projectDescription, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                        <i class="focus-input"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inv__section inv__section--four">
+            </div>
+
+            <div class="inv__section inv__section--five">
+                <div class="inv__flex">
+                    <div class="wrap-input inv__header inv__flex-2">
+                        <h6>Facturé par</h6>
+                        <div class="wrap-input">
+                            <input type="text" id="facture_myCompany" name="facture[myCompany]" required="required" class="input" autocomplete="off">
+                            <i class="focus-input"></i>
+                        </div>
+                    </div>
+                    <div class="wrap-input inv__header inv__flex-1">
+                        <h6>Date de facturation</h6>
+                        <div class="wrap-input">
+                            <input type="text" id="facture_invoiceDate" name="facture[invoiceDate]" required="required" data-language="fr" class="input datepicker-here" autocomplete="off">
+                            <i class="focus-input"></i>
+                        </div>
+                    </div>
+                    <div class="wrap-input inv__header inv__flex-1">
+                        <h6>Date d'échéance</h6>
+                        <div class="wrap-input">
+                            <input type="text" id="facture_dueDate" name="facture[dueDate]" required="required" data-language="fr" class="input datepicker-here" autocomplete="off">
+                            <i class="focus-input"></i>
+                        </div>
+                    </div>
+                    <div class="wrap-input inv__header inv__flex-2">
+                        <h6>Facturé à</h6>
+                        <div class="wrap-input">
+                            <input type="text" id="facture_clientCompany" name="facture[clientCompany]" required="required" class="input" autocomplete="off">
+                            <i class="focus-input"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inv__flex">
+                    <div class="inv__header">
+                        <h6>Numéro de facture</h6>
+                        {{ form_widget(form.invoiceNumber, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                    </div>
+                    <div class="inv__header">
+                        <h6>Numéro de référence</h6>
+                        {{ form_widget(form.referenceNo, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                    </div>
+                </div>
+
+                <div class="inv__flex">
+                    <div class="inv__header inv__terms">
+                        <h6>Conditions de facturation</h6>
+                        <div class="wrap-input">
+                            {{ form_widget(form.invoiceTerms, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                            <i class="focus-input"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{ form_widget(form.save, {'attr': {'class': 'form-btn hidden'} }) }}
 
             {{ form_row(form._token) }}
             {{ form_end(form, {'render_rest' : false}) }}
+        </div>
+
+        <div class="btn-bar">
+            <button class="btn-round btn-default"><i class="fas fa-arrow-left"></i></button>
+            <button class="btn-round btn-export"><i class="fas fa-file-export"></i></button>
+            <button class="btn-round btn-save"><i class="fas fa-save"></i></button>
         </div>
     </div>
 
@@ -69,6 +144,11 @@
 {% block javascripts %}
     <script src="{{ asset('js/datepicker.js') }}"></script>
     <script src="{{ asset('js/datepicker.fr.js') }}"></script>
+    <script>
+        $('.btn-export').on('click', function() {
+            $('#facture_save').trigger('click');
+        })
+    </script>
     <script>
         $(window).on('load', function() {
             var $inputs = $('.resizing-input');
@@ -96,7 +176,7 @@
             });
 
             // Backspace event only fires for keyup
-            $inputs.find('input').keyup(function (e) { 
+            $inputs.find('input').keyup(function (e) {
                 if (e.keyCode === 8 || e.keyCode === 46) {
                     resizeForText.call($(this), $(this).val());
                 }
