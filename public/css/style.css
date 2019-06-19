@@ -637,12 +637,14 @@ label {
 
 .list-wrapper>div {
     display: flex;
+    flex-flow: column;
     align-items: flex-start;
 }
 
 .inv__card {
     position: relative;
     width: 100%;
+    /* margin-bottom: 5px; */
 }
 
 .inv__card>div {
