@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+// namespace Doctrine\Common\Collections;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -61,11 +62,6 @@ class Facture
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $details;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $invoiceNumber;
 
     /**
@@ -82,6 +78,8 @@ class Facture
      * @ORM\OneToMany(targetEntity="App\Entity\Description", mappedBy="facture")
      */
     private $descriptions;
+
+
 
     public function __construct()
     {
@@ -185,18 +183,6 @@ class Facture
     public function setPaymentMethods(?string $paymentMethods): self
     {
         $this->paymentMethods = $paymentMethods;
-
-        return $this;
-    }
-
-    public function getDetails(): ?string
-    {
-        return $this->details;
-    }
-
-    public function setDetails(?string $details): self
-    {
-        $this->details = $details;
 
         return $this;
     }

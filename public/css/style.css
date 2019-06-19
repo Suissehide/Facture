@@ -4,7 +4,6 @@
 *
 */
 
-
 /*
 *   Color
 *
@@ -536,7 +535,7 @@ label {
     background-color: #F0EBF4;
     display: block;
     margin: 30px auto 50px;
-    box-shadow: 0 2px 16px 0 rgba(0,0,0,.2);
+    box-shadow: 0 2px 16px 0 rgba(0, 0, 0, .2);
     width: 768px;
     padding: 64px;
     background: #fff;
@@ -581,6 +580,7 @@ label {
 
 .inv__section--four {
     margin: 30px 0 0;
+    flex-flow: column;
 }
 
 .inv__section--five {
@@ -596,7 +596,7 @@ label {
     margin-bottom: 15px;
 }
 
-.inv__flex > div:not(:last-child) {
+.inv__flex>div:not(:last-child) {
     margin-right: 10px;
 }
 
@@ -618,7 +618,7 @@ label {
     justify-content: center;
 }
 
-.inv__dueDate > h6 {
+.inv__dueDate>h6 {
     color: #E64398 !important;
 }
 
@@ -629,4 +629,83 @@ label {
 .inv__description textarea, .inv__terms textarea {
     height: 30px;
     padding: 7px 15px 0 15px;
+}
+
+.list-wrapper {
+    width: 100%;
+}
+
+.list-wrapper>div {
+    display: flex;
+    align-items: flex-start;
+}
+
+.inv__card {
+    position: relative;
+    width: 100%;
+}
+
+.inv__card>div {
+    display: flex;
+}
+
+.remove-tag {
+    cursor: pointer;
+    position: absolute;
+    right: -25px;
+    top: 4px;
+    color: #E64398;
+    font-size: 16px;
+}
+
+.remove-tag:hover {
+    color: #333;
+}
+
+.inv__table {
+    width: 100%;
+}
+
+.table__header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+
+.col {
+    font-size: 14px;
+    color: #808080;
+    font-family: Ubuntu-regular;
+    height: auto;
+}
+
+.inv__card>div>div {
+    margin-right: 2px;
+}
+
+.c1, .inv__card>div>div:nth-child(1) {
+    width: 61%;
+}
+
+.c2, .inv__card>div>div:nth-child(2) {
+    width: 9%;
+}
+
+.c3, .inv__card>div>div:nth-child(3) {
+    width: 15%;
+}
+
+.c4 {
+    width: 15%;
+}
+
+.c2, .c3, .c4 {
+    text-align: right;
+}
+
+.inv__card input {
+    background-color: transparent;
+    border-radius: 0;
+    border-bottom: 1px #E64398 dashed;
+    padding: 0 0 0 15px;
 }

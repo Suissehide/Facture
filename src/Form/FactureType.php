@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class FactureType extends AbstractType
@@ -64,7 +65,6 @@ class FactureType extends AbstractType
                     'Autre' => 'Autre',
                 ),
             ))
-            ->add('details')
             ->add('invoiceNumber', TextType::class, array(
                 'attr' => array(
                     'placeholder' => '############',
@@ -79,6 +79,15 @@ class FactureType extends AbstractType
                 'attr' => array(
                     'placeholder' => '14 jours de préavis',
                 ),
+            ))
+            ->add('descriptions', CollectionType::class, array(
+                'label' => false,
+                'entry_type' => DescriptionType::class,
+                'entry_options' => array('label' => false),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'delete_empty' => true,
             ))
             ->add('save', SubmitType::class)
         ;

@@ -9,6 +9,18 @@
 
 {% form_theme form _self %}
 
+{% block _facture_descriptions_widget %}
+    <div class="list-wrapper">
+        {% if prototype is defined %}
+            {% set attr = attr|merge({'data-prototype': form_widget(prototype) }) %}
+        {% endif %}
+        {{ block('form_widget') }}
+    </div>
+    <button class="sondage-row reponse-add btn-round">
+            <i class="fa fa-plus"></i>
+    </button>
+{% endblock %}
+
 {% block form_widget_simple %}
     {% set type = type|default('text') %}
     {% if type == 'range' or type == 'color' %}
@@ -70,6 +82,17 @@
             </div>
 
             <div class="inv__section inv__section--four">
+                <div class="inv__table">
+                    <div class="table__header">
+                        <div class="col c1">Description</div>
+                        <div class="col c2">Quantité</div>
+                        <div class="col c3">Prix (EUR)</div>
+                        <div class="col c4">Montant</div>
+                    </div>
+                    <div class="table__body">
+                        {{ form_widget(form.descriptions, {'attr': {'class': 'collection', 'autocomplete' : 'off'} }) }}
+                    </div>
+                </div>
             </div>
 
             <div class="inv__section inv__section--five">
@@ -133,7 +156,7 @@
         </div>
 
         <div class="btn-bar">
-            <button class="btn-round btn-default"><i class="fas fa-arrow-left"></i></button>
+            <button class="btn-round btn-default" onclick="location.href='{{path('index')}}'"><i class="fas fa-arrow-left"></i></button>
             <button class="btn-round btn-export"><i class="fas fa-file-export"></i></button>
             <button class="btn-round btn-save"><i class="fas fa-save"></i></button>
         </div>
@@ -188,4 +211,47 @@
             });
         });
     </script>
+
+    <script>
+        /* Description
+	    ================= */
+        var $addTagLink = $('.reponse-add');
+        var $collectionHolder = $('#facture_descriptions');
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+        $('.sondage-add').on('click', function () {
+            $(this).addClass("hidden");
+            $('#article_sondage').removeClass("hidden");
+            $('.sondage-header').removeClass("hidden");
+        });
+        $('.sondage-remove').on('click', function () {
+            $('.sondage-header').addClass("hidden");
+            $('#article_sondage').addClass("hidden");
+            $('.sondage-add').removeClass("hidden");
+            $collectionHolder.find('li').each(function () {
+                $(this).remove();
+            });
+        });
+        $addTagLink.on('click', function (e) {
+            e.preventDefault();
+            addTagForm($collectionHolder);
+        });
+        function addTagForm($collectionHolder) {
+            var prototype = $collectionHolder.data('prototype');
+            var index = $collectionHolder.data('index');
+            var newForm = prototype.replace(/__name__/g, index);
+            $collectionHolder.data('index', index + 1);
+            var newFormLi = $('<li class="inv__card"></li>').append(newForm);
+            newFormLi.append('<a class="remove-tag"><span class="fa fa-times"></span></a>');
+            $collectionHolder.append(newFormLi);
+        }
+        $("form").on("click", ".remove-tag", function (e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            return false;
+        });
+
+        /* Table
+	    ================= */
+    </script>
+
 {% endblock %}
