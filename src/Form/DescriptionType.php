@@ -24,13 +24,13 @@ class DescriptionType extends AbstractType
             ->add('unit', IntegerType::class, array(
                 'label' => false,
                 'attr' => array(
-                    'class' => 'input',
+                    'class' => 'input unit',
                 ),
             ))
             ->add('price', IntegerType::class, array(
                 'label' => false,
                 'attr' => array(
-                    'class' => 'input',
+                    'class' => 'input price',
                 ),
             ))
         ;

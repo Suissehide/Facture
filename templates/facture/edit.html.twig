@@ -9,18 +9,6 @@
 
 {% form_theme form _self %}
 
-{% block _facture_descriptions_widget %}
-    <div class="list-wrapper">
-        {% if prototype is defined %}
-            {% set attr = attr|merge({'data-prototype': form_widget(prototype) }) %}
-        {% endif %}
-        {{ block('form_widget') }}
-    </div>
-    <button class="sondage-row reponse-add btn-round">
-            <i class="fa fa-plus"></i>
-    </button>
-{% endblock %}
-
 {% block form_widget_simple %}
     {% set type = type|default('text') %}
     {% if type == 'range' or type == 'color' %}
@@ -32,6 +20,43 @@
         <span style="display:none"></span>
     </div>
 {% endblock form_widget_simple %}
+
+{% block _facture_descriptions_widget %}
+    <div class="list-wrapper">
+        {% if prototype is defined %}
+            {% set attr = attr|merge({'data-prototype': form_widget(prototype) }) %}
+        {% endif %}
+        {{ block('form_widget') }}
+    </div>
+    <button class="hidden reponse-add btn-round">
+            <i class="fa fa-plus"></i>
+    </button>
+{% endblock %}
+
+{% block no_resize_widget %}
+    {% set type = type|default('text') %}
+    {% if type == 'range' or type == 'color' %}
+        {% set required = false %}
+    {% endif %}
+     <div class="wrap-input">
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        <i class="focus-input"></i>
+    </div>
+{% endblock %}
+
+{% block _facture_descriptions_entry_content_widget %}
+    {{ block('no_resize_widget') }}
+{% endblock _facture_descriptions_entry_content_widget %}
+
+{% block _facture_descriptions_entry_unit_widget %}
+    {% set type = type|default('number') %}
+    {{ block('no_resize_widget') }}
+{% endblock _facture_descriptions_entry_unit_widget %}
+
+{% block _facture_descriptions_entry_price_widget %}
+    {% set type = type|default('number') %}
+    {{ block('no_resize_widget') }}
+{% endblock _facture_descriptions_entry_price_widget %}
 
 {% block body %}
 
@@ -59,7 +84,7 @@
                     {{ form_widget(form.clientCompany, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
                 </div>
                 <div class="inv__header">
-                    <h1><span class="symbol">€</span>0.00</h1>
+                    <h1 class="js-total">0.00€</h1>
                     <div class="inv__flex inv__dueDate">
                         <h6>À payer le </h6>
                         <div>
@@ -84,13 +109,33 @@
             <div class="inv__section inv__section--four">
                 <div class="inv__table">
                     <div class="table__header">
-                        <div class="col c1">Description</div>
+                        <div class="col c1">Désignation</div>
                         <div class="col c2">Quantité</div>
                         <div class="col c3">Prix (EUR)</div>
                         <div class="col c4">Montant</div>
                     </div>
                     <div class="table__body">
                         {{ form_widget(form.descriptions, {'attr': {'class': 'collection', 'autocomplete' : 'off'} }) }}
+                        <div class="line">
+                            <div class="col c1"></div>
+                            <div class="col c2"></div>
+                            <div class="col c5">Sous-total</div>
+                            <div class="col c6 js-sub-total">0.00€</div>
+                        </div>
+                        <div class="line">
+                            <div class="col c1"></div>
+                            <div class="col c2"></div>
+                            <div class="col c5 vat">TVA ( {{ form_widget(form.VAT, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                                %)
+                            </div>
+                            <div class="col c6 js-vat">0.00€</div>
+                        </div>
+                        <div class="line">
+                            <div class="col c1"></div>
+                            <div class="col c2"></div>
+                            <div class="col c5 total dark-pink">TOTAL</div>
+                            <div class="col c6 total js-total">0.00€</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -172,6 +217,7 @@
             $('#facture_save').trigger('click');
         })
     </script>
+
     <script>
         $(window).on('load', function() {
             var $inputs = $('.resizing-input');
@@ -240,8 +286,9 @@
             var index = $collectionHolder.data('index');
             var newForm = prototype.replace(/__name__/g, index);
             $collectionHolder.data('index', index + 1);
+            newForm = $(newForm).append('<div class="col c4 amount">0.00€</div>');
             var newFormLi = $('<li class="inv__card"></li>').append(newForm);
-            newFormLi.append('<a class="remove-tag"><span class="fa fa-times"></span></a>');
+            newFormLi.append('<a class="hidden remove-tag"><span class="fa fa-times"></span></a>');
             $collectionHolder.append(newFormLi);
         }
         $("form").on("click", ".remove-tag", function (e) {
@@ -250,8 +297,49 @@
             return false;
         });
 
-        /* Table
-	    ================= */
+    </script>
+
+    <script>
+        if ($('.inv__card').length == 0)
+            addTagForm($collectionHolder);
+        $('.list-wrapper').on('keyup', '.inv__card input', function() {
+            setAmount();
+            addRemove(this);
+            if ($(this).parents('.inv__card').index() + 1 == $('.inv__card').length)
+                addTagForm($collectionHolder);
+        });
+        $('#facture_VAT').on('keyup', function() {
+            setAmount();
+        });
+
+        function addRemove(e) {
+            let card = $(e).parents('.inv__card');
+            card.find('.remove-tag').addClass('hidden');
+            card.find('input').each(function(index) {
+                if ($(this).val() != '') {
+                    card.find('.remove-tag').removeClass('hidden');
+                    return false;
+                }
+            });
+        }
+
+        function amount(x) {
+            return Number.parseFloat(x).toFixed(2);
+        }
+
+        function setAmount() {
+            let sub_total = 0;
+            $('.inv__card').each(function(index) {
+                let unit = $(this).find('.unit').val();
+                let price = $(this).find('.price').val();
+                sub_total += (price * unit);
+                $(this).find('.amount').text(amount(price * unit) + '€');
+            });
+            $('.js-sub-total').text(amount(sub_total) + '€');
+            let vat = sub_total * ($('#facture_VAT').val() / 100);
+            $('.js-vat').text(amount(vat) + '€');
+            $('.js-total').text(amount(sub_total + vat) + '€');
+        }
     </script>
 
 {% endblock %}
