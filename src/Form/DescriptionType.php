@@ -20,18 +20,21 @@ class DescriptionType extends AbstractType
                 'attr' => array(
                     'class' => 'input',
                 ),
+                'required' => false,
             ))
             ->add('unit', IntegerType::class, array(
                 'label' => false,
                 'attr' => array(
                     'class' => 'input unit',
                 ),
+                'required' => false,
             ))
             ->add('price', IntegerType::class, array(
                 'label' => false,
                 'attr' => array(
                     'class' => 'input price',
                 ),
+                'required' => false,
             ))
         ;
     }

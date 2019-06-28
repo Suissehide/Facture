@@ -1,1 +1,83 @@
-index
+{% extends 'base.html.twig' %}
+
+{% block title %}Index{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/bootgrid.min.css') }}"/>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid index__fluid">
+    <div class="index__container">
+        <h1>Liste des factures</h1>
+
+        <div class="table-wrapper">
+            <a href="{{path('new_facture')}}" class="btn button"><i class="fas fa-plus"></i>Facture</a>
+            <table cellspacing="0" class="table table-condensed table-hover table-striped" id="data-grid">
+                <thead>
+                    <tr>
+                        <th data-column-id="id" data-identifier="true" data-searchable="false" data-type="numeric" data-visible="false">Id</th>
+                        <th data-column-id="entreprise">Entreprise</th>
+                        <th data-column-id="client">Client</th>
+                        <th data-column-id="facturation">Date de facturation</th>
+                        <th data-column-id="echeance">Date d'échéance</th>
+                        <th data-column-id="description">Description</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/bootgrid.min.js') }}"></script>
+    <script>
+        var grid = $("#data-grid").bootgrid({
+            rowCount: [
+                5, 10, 20, -1
+            ],
+            columnSelection: false,
+            ajax: true,
+            statusMapping: {
+                0: "in",
+                1: "out",
+            },
+            requestHandler: function (request) {
+                return request;
+            },
+            url: "{{ path('ajax_facture') }}",
+            formatters: {
+                "observ": function(column, row) {
+                    if (row.observ)
+                        return "<div class=\"pastille\"></div>";
+                },
+                "commands": function(column, row) {
+                    return "<button type=\"button\" class=\"btn btn-xs btn-default command-view\" data-row-id=\"" + row.id + "\"><i class=\"fa fa-eye\"></i></button> " +
+                        "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><i class=\"fa fa-pencil-alt\"></i></button> " + 
+                        "<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><i class=\"fa fa-trash-alt\"></i></button>";
+                },
+            }
+        }).on("loaded.rs.jquery.bootgrid", function() {
+            grid.find(".command-edit").on("click", function(e) {
+                // alert("You pressed edit on row: " + $(this).data("row-id"));
+            }).end().find(".command-delete").on("click", function(e) {
+                // alert("You pressed delete on row: " + $(this).data("row-id"));
+            }).end().find(".command-view").on("click", function(e) {
+                // alert("You pressed view on row: " + $(this).data("row-id"));
+            }).end().find("tr").on("click", function(e) {
+                redirect($(this).data("row-id"));
+            });
+        });
+
+        function redirect(id) {
+            if (id == undefined)
+                return;
+            let pathArray = window.location.pathname.split("/");
+            let url = window.location.protocol + "//" + window.location.host;
+            for (let i = 0; i < pathArray.length - 1; i++)
+                url += pathArray[i] + "/";
+            window.location.assign(url + "facture/" + id);
+        };
+    </script>
+{% endblock %}

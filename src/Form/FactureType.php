@@ -22,12 +22,14 @@ class FactureType extends AbstractType
             ->add('myCompany', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Mon entreprise',
-                )
+                ),
+                'required' => false,
             ))
             ->add('clientCompany', TextType::class, array(
                 'attr' => array(
                     'placeholder' => 'Entreprise du client',
-                )
+                ),
+                'required' => false,
             ))
             ->add('total')
             ->add('VAT', IntegerType::class, array(
@@ -35,6 +37,7 @@ class FactureType extends AbstractType
                 'attr' => array(
                     'placeholder' => '',
                 ),
+                'required' => false,
             ))
             ->add('invoiceDate', DateType::class, array(
                 'label' => 'Date de facturation',
@@ -44,7 +47,8 @@ class FactureType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Date de facturation',
                     'data-language' => 'fr',
-                )
+                ),
+                'required' => false,
             ))
             ->add('dueDate', DateType::class, array(
                 'label' => 'Date d\'échéance',
@@ -54,12 +58,14 @@ class FactureType extends AbstractType
                 'attr' => array(
                     'placeholder' => 'Date d\'échéance',
                     'data-language' => 'fr'
-                )
+                ),
+                'required' => false,
             ))
             ->add('projectDescription', TextareaType::class, array(
                 'attr' => array(
                     'placeholder' => 'Description du projet'
-                )
+                ),
+                'required' => false,
             ))
             ->add('paymentMethods', ChoiceType::class, array(
                 'placeholder' => '',
@@ -70,21 +76,25 @@ class FactureType extends AbstractType
                     'PayPal' => 'PayPal',
                     'Autre' => 'Autre',
                 ),
+                'required' => false,
             ))
             ->add('invoiceNumber', TextType::class, array(
                 'attr' => array(
                     'placeholder' => '############',
                 ),
+                'required' => false,
             ))
             ->add('referenceNo', TextType::class, array(
                 'attr' => array(
                     'placeholder' => '############',
                 ),
+                'required' => false,
             ))
             ->add('invoiceTerms', TextareaType::class, array(
                 'attr' => array(
                     'placeholder' => '14 jours de préavis',
                 ),
+                'required' => false,
             ))
             ->add('descriptions', CollectionType::class, array(
                 'label' => false,

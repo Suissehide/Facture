@@ -37,7 +37,7 @@
 
 html {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     overflow-x: hidden;
 }
 
@@ -45,7 +45,7 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     font-family: Ubuntu-Regular, sans-serif;
     font-size: 14px;
     position: relative;
@@ -245,6 +245,10 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     transform: scale(1);
 }
 
+.actionBar .glyphicon-search {
+    background-color: #B39BC8;
+}
+
 .actionBar .glyphicon-search, .actionBar .glyphicon-refresh {
     -webkit-text-stroke: 0.75px black;
 }
@@ -271,11 +275,11 @@ td .btn-default {
 }
 
 .command-view {
-    background-color: #3CBDA5;
+    background-color: #E64398;
 }
 
 .command-view:hover {
-    background-color: #55d6be;
+    background-color: #F172A1;
 }
 
 .command-edit {
@@ -313,11 +317,11 @@ td .btn-default {
     font-family: Ubuntu-Bold;
     font-size: 18px;
     line-height: 1.4;
-    background-color: #55d6be;
+    background-color: #B39BC8;
 }
 
 .table th:active, .table th:hover {
-    background: #3CBDA5;
+    background: #907da1 !important;
 }
 
 .table th span, .table th {
@@ -340,7 +344,7 @@ td .btn-default {
 }
 
 .table-hover>tbody>tr:hover {
-    background-color: #c2dad5;
+    background-color: rgb(230, 67, 152, 0.2);
 }
 
 .table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>thead>tr>th {
@@ -358,19 +362,19 @@ td .btn-default {
 }
 
 .pagination li:hover a {
-    color: #3CBDA5;
+    color: #E64398;
 }
 
 .pagination li.active a {
     color: #808080;
     background-color: transparent;
-    border: 1px solid #55d6be;
+    border: 1px solid #F172A1;
 }
 
 .pagination li.active:hover a {
     color: #f4f9f7;
-    background-color: #55d6be;
-    border-color: #3CBDA5;
+    background-color: #F172A1;
+    border-color: #E64398;
 }
 
 .pagination li.last a, .pagination li.first a {
@@ -507,6 +511,50 @@ label {
     position: absolute;
 }
 
+/*-------------------- INDEX -------------------------*/
+
+.index__fluid {
+    height: 100vh;
+    background-color: #F172A1;
+}
+
+.index__container {
+    background-color: #F0EBF4;
+    display: block;
+    margin: 30px auto 50px;
+    box-shadow: 0 2px 16px 0 rgba(0, 0, 0, .2);
+    padding: 64px;
+    max-width: 100%;
+}
+
+.table-wrapper {
+    position: relative;
+}
+
+.index__container h1 {
+    margin-bottom: 40px;
+}
+
+.button {
+    cursor: pointer;
+    position: absolute;
+    padding: 3px 12px;
+    margin-left: 15px;
+    top: 0px;
+    color: #F0EBF4;
+    background-color: #B39BC8;
+    font-size: 18px;
+}
+
+.button .fas {
+    margin-right: 10px;
+}
+
+.button:hover {
+    background-color: #907da1;
+    color: #F0EBF4;
+}
+
 /*-------------------- INVOICE -------------------------*/
 
 .btn-bar {
@@ -539,8 +587,7 @@ label {
     border-color: #8c8c8c;
 }
 
-.container-fluid {
-    /* overflow-y: hidden; */
+.inv__fluid {
     background-color: #F172A1;
     min-height: 100vh;
 }

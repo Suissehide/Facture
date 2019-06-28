@@ -33,6 +33,15 @@
     </button>
 {% endblock %}
 
+{% block _facture_descriptions_entry_widget %}
+    {% if prototype is defined and not prototype.rendered %}
+        {% set attr = attr|merge({'data-prototype': form_row(prototype) }) %}
+    {% endif %}
+    <div class="inv__card">
+        {{ block('form_widget') }}
+    </div>
+{% endblock _facture_descriptions_entry_widget %}
+
 {% block no_resize_widget %}
     {% set type = type|default('text') %}
     {% if type == 'range' or type == 'color' %}
@@ -60,7 +69,7 @@
 
 {% block body %}
 
-    <div class="container-fluid">
+    <div class="container-fluid inv__fluid">
         <div class="inv__container">
             {{ form_start(form, {'attr': {'class': 'form validate-form container-form', 'autocomplete' : 'off'} }) }}
             {{ form_errors(form) }}
@@ -213,7 +222,7 @@
     <script src="{{ asset('js/datepicker.js') }}"></script>
     <script src="{{ asset('js/datepicker.fr.js') }}"></script>
     <script>
-        $('.btn-export').on('click', function() {
+        $('.btn-save').on('click', function() {
             $('#facture_save').trigger('click');
         })
     </script>
@@ -287,7 +296,7 @@
             var newForm = prototype.replace(/__name__/g, index);
             $collectionHolder.data('index', index + 1);
             newForm = $(newForm).append('<div class="col c4 amount">0.00€</div>');
-            var newFormLi = $('<li class="inv__card"></li>').append(newForm);
+            var newFormLi = $('<div></div>').append(newForm);
             newFormLi.append('<a class="hidden remove-tag"><span class="fa fa-times"></span></a>');
             $collectionHolder.append(newFormLi);
         }
