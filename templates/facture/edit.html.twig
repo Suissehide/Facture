@@ -33,13 +33,28 @@
     </button>
 {% endblock %}
 
-{% block _facture_descriptions_entry_widget %}
-    {% if prototype is defined and not prototype.rendered %}
-        {% set attr = attr|merge({'data-prototype': form_row(prototype) }) %}
-    {% endif %}
-    <div class="inv__card">
-        {{ block('form_widget') }}
+{%- block form_row -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <div class="inv__row" {% with {attr: row_attr|default({})} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_errors(form) -}}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_help(form) -}}
     </div>
+{%- endblock form_row -%}
+
+{% block _facture_descriptions_entry_widget %}
+    <div class="inv__card">
+        {# {{ block('form_widget') }} #}
+        {{ form_widget(form.content) }}
+        {{ form_widget(form.unit) }}
+        {{ form_widget(form.price) }}
+        <div class="col c4 amount">0.00€</div>
+    </div>
+    <a class="hidden remove-tag"><span class="fa fa-times"></span></a>
 {% endblock _facture_descriptions_entry_widget %}
 
 {% block no_resize_widget %}
@@ -228,6 +243,8 @@
     </script>
 
     <script>
+        /* Input resize
+	    ================= */
         $(window).on('load', function() {
             var $inputs = $('.resizing-input');
             var padding = 30;
@@ -268,36 +285,23 @@
     </script>
 
     <script>
-        /* Description
+        /* Description - Collection create
 	    ================= */
         var $addTagLink = $('.reponse-add');
         var $collectionHolder = $('#facture_descriptions');
         $collectionHolder.data('index', $collectionHolder.find(':input').length);
-        $('.sondage-add').on('click', function () {
-            $(this).addClass("hidden");
-            $('#article_sondage').removeClass("hidden");
-            $('.sondage-header').removeClass("hidden");
-        });
-        $('.sondage-remove').on('click', function () {
-            $('.sondage-header').addClass("hidden");
-            $('#article_sondage').addClass("hidden");
-            $('.sondage-add').removeClass("hidden");
-            $collectionHolder.find('li').each(function () {
-                $(this).remove();
-            });
-        });
         $addTagLink.on('click', function (e) {
             e.preventDefault();
             addTagForm($collectionHolder);
         });
+
         function addTagForm($collectionHolder) {
             var prototype = $collectionHolder.data('prototype');
             var index = $collectionHolder.data('index');
             var newForm = prototype.replace(/__name__/g, index);
             $collectionHolder.data('index', index + 1);
-            newForm = $(newForm).append('<div class="col c4 amount">0.00€</div>');
-            var newFormLi = $('<div></div>').append(newForm);
-            newFormLi.append('<a class="hidden remove-tag"><span class="fa fa-times"></span></a>');
+            var newFormLi = $('<div class="inv__row"></div>').append(newForm);
+            //newFormLi.append('<a class="hidden remove-tag"><span class="fa fa-times"></span></a>');
             $collectionHolder.append(newFormLi);
         }
         $("form").on("click", ".remove-tag", function (e) {
@@ -309,12 +313,13 @@
     </script>
 
     <script>
-        if ($('.inv__card').length == 0)
+        if ($('.inv__row').length == 0)
             addTagForm($collectionHolder);
-        $('.list-wrapper').on('keyup', '.inv__card input', function() {
+        $('.list-wrapper').on('keyup', '.inv__row input', function() {
             setAmount();
             addRemove(this);
-            if ($(this).parents('.inv__card').index() + 1 == $('.inv__card').length)
+            //TODO: ne pas créer une nouvelle ligne si une vide
+            if ($(this).parents('.inv__row').index() + 1 == $('.inv__row').length)
                 addTagForm($collectionHolder);
         });
         $('#facture_VAT').on('keyup', function() {
@@ -322,7 +327,7 @@
         });
 
         function addRemove(e) {
-            let card = $(e).parents('.inv__card');
+            let card = $(e).parents('.inv__row');
             card.find('.remove-tag').addClass('hidden');
             card.find('input').each(function(index) {
                 if ($(this).val() != '') {
@@ -349,6 +354,10 @@
             $('.js-vat').text(amount(vat) + '€');
             $('.js-total').text(amount(sub_total + vat) + '€');
         }
+        setAmount();
+
+        /* Auto fill <Récapitulatives> input
+	    ================= */
     </script>
 
 {% endblock %}

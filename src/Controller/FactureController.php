@@ -23,6 +23,15 @@ class FactureController extends AbstractController
         ]);
     }
 
+    public static function dateToFrench($date, $format) 
+    {
+        $english_days = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
+        $french_days = array('lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche');
+        $english_months = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+        $french_months = array('janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre');
+        return str_replace($english_months, $french_months, str_replace($english_days, $french_days, date($format, strtotime($date) ) ) );
+    }
+
     /**
      * @Route("/ajax/facture", name="ajax_facture")
      */
@@ -51,8 +60,8 @@ class FactureController extends AbstractController
                     "id" => $facture->getId(),
                     "entreprise" => $facture->getMyCompany(),
                     "client" => $facture->getClientCompany(),
-                    "echeance" => $facture->getDueDate(),
-                    "facturation" => $facture->getInvoiceDate(),
+                    "echeance" => $this->dateToFrench(date_format($facture->getDueDate(), 'y-m-d'), 'l j F Y'),
+                    "facturation" => $this->dateToFrench(date_format($facture->getInvoiceDate(), 'y-m-d'), 'l j F Y'),
                     "description" => $facture->getProjectDescription(),
                 );
                 array_push($rows, $row);
@@ -65,10 +74,6 @@ class FactureController extends AbstractController
             );
             return new JsonResponse($data);
         }
-
-        return $this->render('facture/index.html.twig', [
-            'controller_name' => 'FactureController',
-        ]);
     }
 
 

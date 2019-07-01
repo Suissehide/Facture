@@ -703,13 +703,13 @@ label {
     align-items: flex-start;
 }
 
-.inv__card {
+.inv__row {
     position: relative;
     width: 100%;
     margin-bottom: 10px;
 }
 
-.inv__card>div {
+.inv__card {
     display: flex;
 }
 
@@ -744,19 +744,19 @@ label {
     height: 30px;
 }
 
-.inv__card>div>div {
+.inv__card>div {
     margin-right: 2px;
 }
 
-.c1, .inv__card>div>div:nth-child(1) {
+.c1, .inv__card>div:nth-child(1) {
     width: 61%;
 }
 
-.c2, .inv__card>div>div:nth-child(2) {
+.c2, .inv__card>div:nth-child(2) {
     width: 9%;
 }
 
-.c3, .inv__card>div>div:nth-child(3) {
+.c3, .inv__card>div:nth-child(3) {
     width: 15%;
 }
 
