@@ -608,11 +608,12 @@ label {
 @media screen and (max-width: 1350px) {
     .btn-bar {
         flex-flow: column;
-        right: 15   px;
+        right: 15 px;
     }
 }
 
 .inv__fluid {
+    transition: all .7s ease;
     padding-top: 64px;
     background-color: #F172A1;
     min-height: 100vh;
@@ -1104,4 +1105,81 @@ button[data-tooltip][data-position="bottom"]:after {
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 0.1em;
+}
+
+.d-flex {
+    display: flex;
+    align-items: center;
+}
+
+/*-------------------- COLOR PICKER -------------------------*/
+
+.color-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    background: #fff;
+    width: 208px;
+    height: 48px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    margin-right: 30px;
+}
+
+.color-container .blueSub, .color-container .redSub, .color-container .greenSub, .color-container .purpleSub {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    right: -4px;
+    top: -4px;
+    transition: all .7s ease;
+}
+
+.color-container .blueSub {
+    background: rgba(0, 168, 255, 0.2);
+}
+
+.color-container .redSub {
+    background: rgba(255, 96, 95, 0.2);
+    opacity: 0;
+}
+
+.color-container .greenSub {
+    background: rgba(150, 209, 0, 0.2);
+    opacity: 0;
+}
+
+.color-container .purpleSub {
+    background: rgba(208, 102, 250, 0.2);
+    opacity: 0;
+}
+
+.color-container .blue, .color-container .red, .color-container .green, .color-container .purple {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+}
+
+.color-container .blue {
+    background: #00a8ff;
+}
+
+.color-container .red {
+    background: #ff605f;
+}
+
+.color-container .green {
+    background: #96d100;
+}
+
+.color-container .purple {
+    background: #d066fa;
+}
+
+.color-container .blue:hover, .color-container .red:hover, .color-container .green:hover, .color-container .purple:hover {
+    cursor: pointer;
 }

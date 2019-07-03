@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}Index{% endblock %}
 
@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootgrid.min.css') }}"/>
 {% endblock %}
 
-{% block body %}
+{% block page_content %}
 <div class="container-fluid index__fluid">
     <div class="index__container">
         <h1>Liste des factures</h1>

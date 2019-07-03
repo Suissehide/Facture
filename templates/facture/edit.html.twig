@@ -83,6 +83,32 @@
     {{ block('no_resize_widget') }}
 {% endblock _facture_descriptions_entry_price_widget %}
 
+{% block extra %}
+    <div class="color-container">
+        <div class="blue">
+            <div class="blueSub"></div>
+        </div>
+        <div class="red">
+            <div class="redSub"></div>
+        </div>
+        <div class="green">
+            <div class="greenSub"></div>
+        </div>
+        <div class="purple">
+            <div class="purpleSub"></div>
+        </div>
+    </div>
+    <div class="switch switch--horizontal">
+        <input checked="checked" id="radio-a" name="swap" type="radio"/>
+        <label for="radio-a">Editer</label>
+        <input id="radio-b" name="swap" type="radio"/>
+        <label for="radio-b">Aperçu</label>
+        <span class="toggle-outside">
+            <span class="toggle-inside"></span>
+        </span>
+    </div>
+{% endblock %}
+
 {% block page_content %}
 
     <div class="container-fluid inv__fluid">
@@ -246,11 +272,9 @@
 {% block javascripts %}
     <script src="{{ asset('js/datepicker.js') }}"></script>
     <script src="{{ asset('js/datepicker.fr.js') }}"></script>
-    {# <script src="{{ asset('js/es6-promise.auto.min.js') }}"></script> #}
     <script src="{{ asset('js/html2canvas.js') }}"></script>
-    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script> #}
     <script src="{{ asset('js/jspdf.js') }}"></script>
-    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script> #}
+    <script src="{{ asset('js/color-picker.js') }}"></script>
     <script>
         $(document).ready(function () {
 
