@@ -1,11 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}Facture
 {% endblock %}
 
-{% block stylesheets %}
-
-{% endblock %}
+{% block stylesheets %}{% endblock %}
 
 {% form_theme form _self %}
 
@@ -14,8 +12,8 @@
     {% if type == 'range' or type == 'color' %}
         {% set required = false %}
     {% endif %}
-     <div class="resizing-input wrap-input">
-        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <div class="resizing-input wrap-input">
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %} value="{{ value }}" {% endif %}/>
         <i class="focus-input"></i>
         <span style="display:none"></span>
     </div>
@@ -29,32 +27,35 @@
         {{ block('form_widget') }}
     </div>
     <button class="hidden reponse-add btn-round">
-            <i class="fa fa-plus"></i>
+        <i class="fa fa-plus"></i>
     </button>
 {% endblock %}
 
-{%- block form_row -%}
-    {%- set widget_attr = {} -%}
-    {%- if help is not empty -%}
-        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
-    {%- endif -%}
-    <div class="inv__row" {% with {attr: row_attr|default({})} %}{{ block('attributes') }}{% endwith %}>
-        {{- form_label(form) -}}
-        {{- form_errors(form) -}}
-        {{- form_widget(form, widget_attr) -}}
-        {{- form_help(form) -}}
+{% block form_row %}
+    {% set widget_attr = {} %}
+    {% if help is not empty %}
+        {% set widget_attr = {attr: {'aria-describedby': id ~"_help"}} %}
+    {% endif %}
+    <div class="inv__row" {% with {attr: row_attr|default({} )} %} {{ block('attributes') }} {% endwith %}>
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form, widget_attr) }}
+        {{ form_help(form) }}
     </div>
-{%- endblock form_row -%}
+{% endblock form_row %}
 
 {% block _facture_descriptions_entry_widget %}
-    <div class="inv__card">
+    <div
+        class="inv__card">
         {# {{ block('form_widget') }} #}
         {{ form_widget(form.content) }}
         {{ form_widget(form.unit) }}
         {{ form_widget(form.price) }}
         <div class="col c4 amount">0.00€</div>
     </div>
-    <a class="hidden remove-tag"><span class="fa fa-times"></span></a>
+    <a class="hidden remove-tag">
+        <span class="fa fa-times"></span>
+    </a>
 {% endblock _facture_descriptions_entry_widget %}
 
 {% block no_resize_widget %}
@@ -62,8 +63,8 @@
     {% if type == 'range' or type == 'color' %}
         {% set required = false %}
     {% endif %}
-     <div class="wrap-input">
-        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+    <div class="wrap-input">
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %} value="{{ value }}" {% endif %}/>
         <i class="focus-input"></i>
     </div>
 {% endblock %}
@@ -82,11 +83,11 @@
     {{ block('no_resize_widget') }}
 {% endblock _facture_descriptions_entry_price_widget %}
 
-{% block body %}
+{% block page_content %}
 
     <div class="container-fluid inv__fluid">
-        <div class="inv__container">
-            {{ form_start(form, {'attr': {'class': 'form validate-form container-form', 'autocomplete' : 'off'} }) }}
+        <div class="inv__container" id="pdf">
+            {{ form_start(form, {'attr': {'class': 'form validate-form container-form'} }) }}
             {{ form_errors(form) }}
 
             <div class="inv__section inv__section--one">
@@ -94,37 +95,39 @@
                     <h1 class="inv__title">Facture</h1>
                     <div class="inv__flex">
                         <h6>faites par</h6>
-                        {{ form_widget(form.myCompany, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                        {{ form_widget(form.myCompany, {'attr': {'class': 'input'} }) }}
                     </div>
                 </div>
                 <div class="inv__date">
-                    {{ form_widget(form.invoiceDate, {'attr': {'class': 'input datepicker-here', 'autocomplete' : 'off'} }) }}
+                    {{ form_widget(form.invoiceDate, {'attr': {'class': 'input js-datepicker'} }) }}
                 </div>
             </div>
 
             <div class="inv__section inv__section--two">
                 <div class="inv__header">
                     <h6>Facturé à</h6>
-                    {{ form_widget(form.clientCompany, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                    {{ form_widget(form.clientCompany, {'attr': {'class': 'input'} }) }}
                 </div>
                 <div class="inv__header">
                     <h1 class="js-total">0.00€</h1>
                     <div class="inv__flex inv__dueDate">
-                        <h6>À payer le </h6>
+                        <h6>À payer le
+                        </h6>
                         <div>
-                        {{ form_widget(form.dueDate, {'attr': {'class': 'input datepicker-here', 'autocomplete' : 'off'} }) }}
+                            {{ form_widget(form.dueDate, {'attr': {'class': 'input js-datepicker'} }) }}
                         </div>
                     </div>
                     <h6>Moyen de paiement</h6>
-                    {{ form_widget(form.paymentMethods, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                    {{ form_widget(form.paymentMethods, {'attr': {'class': 'input'} }) }}
                 </div>
             </div>
 
             <div class="inv__section inv__section--three">
                 <div class="inv__header inv__description">
-                    <h6>Facture de </h6>
+                    <h6>Facture pour
+                    </h6>
                     <div class="wrap-input">
-                        {{ form_widget(form.projectDescription, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                        {{ form_widget(form.projectDescription, {'attr': {'class': 'input'} }) }}
                         <i class="focus-input"></i>
                     </div>
                 </div>
@@ -139,7 +142,7 @@
                         <div class="col c4">Montant</div>
                     </div>
                     <div class="table__body">
-                        {{ form_widget(form.descriptions, {'attr': {'class': 'collection', 'autocomplete' : 'off'} }) }}
+                        {{ form_widget(form.descriptions, {'attr': {'class': 'collection'} }) }}
                         <div class="line">
                             <div class="col c1"></div>
                             <div class="col c2"></div>
@@ -149,8 +152,10 @@
                         <div class="line">
                             <div class="col c1"></div>
                             <div class="col c2"></div>
-                            <div class="col c5 vat">TVA ( {{ form_widget(form.VAT, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
-                                %)
+                            <div class="col c5 vat">
+                                <div>TVA (</div>
+                                {{ form_widget(form.VAT, {'attr': {'class': 'input'} }) }}
+                                <div>%)</div>
                             </div>
                             <div class="col c6 js-vat">0.00€</div>
                         </div>
@@ -169,28 +174,28 @@
                     <div class="wrap-input inv__header inv__flex-2">
                         <h6>Facturé par</h6>
                         <div class="wrap-input">
-                            <input type="text" id="facture_myCompany" name="facture[myCompany]" required="required" class="input" autocomplete="off">
+                            <input autocomplete="off" class="input" id="facture_myCompany_copy" name="facture[myCompany]" type="text">
                             <i class="focus-input"></i>
                         </div>
                     </div>
                     <div class="wrap-input inv__header inv__flex-1">
                         <h6>Date de facturation</h6>
                         <div class="wrap-input">
-                            <input type="text" id="facture_invoiceDate" name="facture[invoiceDate]" required="required" data-language="fr" class="input datepicker-here" autocomplete="off">
+                            <input autocomplete="off" class="input js-datepicker" data-language="fr" id="facture_invoiceDate_copy" name="facture[invoiceDate]" type="text">
                             <i class="focus-input"></i>
                         </div>
                     </div>
                     <div class="wrap-input inv__header inv__flex-1">
                         <h6>Date d'échéance</h6>
                         <div class="wrap-input">
-                            <input type="text" id="facture_dueDate" name="facture[dueDate]" required="required" data-language="fr" class="input datepicker-here" autocomplete="off">
+                            <input autocomplete="off" class="input js-datepicker" data-language="fr" id="facture_dueDate_copy" name="facture[dueDate]" type="text">
                             <i class="focus-input"></i>
                         </div>
                     </div>
                     <div class="wrap-input inv__header inv__flex-2">
                         <h6>Facturé à</h6>
                         <div class="wrap-input">
-                            <input type="text" id="facture_clientCompany" name="facture[clientCompany]" required="required" class="input" autocomplete="off">
+                            <input autocomplete="off" class="input" id="facture_clientCompany_copy" name="facture[clientCompany]" type="text">
                             <i class="focus-input"></i>
                         </div>
                     </div>
@@ -199,11 +204,11 @@
                 <div class="inv__flex">
                     <div class="inv__header">
                         <h6>Numéro de facture</h6>
-                        {{ form_widget(form.invoiceNumber, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                        {{ form_widget(form.invoiceNumber, {'attr': {'class': 'input'} }) }}
                     </div>
                     <div class="inv__header">
                         <h6>Numéro de référence</h6>
-                        {{ form_widget(form.referenceNo, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                        {{ form_widget(form.referenceNo, {'attr': {'class': 'input'} }) }}
                     </div>
                 </div>
 
@@ -211,7 +216,7 @@
                     <div class="inv__header inv__terms">
                         <h6>Conditions de facturation</h6>
                         <div class="wrap-input">
-                            {{ form_widget(form.invoiceTerms, {'attr': {'class': 'input', 'autocomplete' : 'off'} }) }}
+                            {{ form_widget(form.invoiceTerms, {'attr': {'class': 'input'} }) }}
                             <i class="focus-input"></i>
                         </div>
                     </div>
@@ -225,42 +230,127 @@
         </div>
 
         <div class="btn-bar">
-            <button class="btn-round btn-default" onclick="location.href='{{path('index')}}'"><i class="fas fa-arrow-left"></i></button>
-            <button class="btn-round btn-export"><i class="fas fa-file-export"></i></button>
-            <button class="btn-round btn-save"><i class="fas fa-save"></i></button>
+            <button class="btn-round btn-default top" data-position="top" data-tooltip="Retour" onclick="location.href='{{path('index')}}'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <button class="btn-round btn-save" data-position="top" data-tooltip="Sauvegarder">
+                <i class="fas fa-save"></i>
+            </button>
+            <button class="btn-round btn-export" data-position="top" data-tooltip="Exporter">
+                <i class="fas fa-file-export"></i>
+            </button>
         </div>
     </div>
-
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('js/datepicker.js') }}"></script>
     <script src="{{ asset('js/datepicker.fr.js') }}"></script>
+    {# <script src="{{ asset('js/es6-promise.auto.min.js') }}"></script> #}
+    <script src="{{ asset('js/html2canvas.js') }}"></script>
+    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script> #}
+    <script src="{{ asset('js/jspdf.js') }}"></script>
+    {# <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script> #}
     <script>
-        $('.btn-save').on('click', function() {
-            $('#facture_save').trigger('click');
-        })
+        $(document).ready(function () {
+
+            $('#radio-a').on('click', function () {
+                edit();
+            });
+
+            function edit() {
+                $('form').find("input, textarea, select").each(function (ev) {
+                    $(this).attr("placeholder", $(this).attr("data-placeholder"));
+                    $(this).removeAttr("data-placeholder");
+                    $(this).parent().find('i').css({'display':'block'});
+                    $(this).removeClass("preview");
+                    $(this).attr("disabled", false);
+                });
+            }
+
+            $('#radio-b').on('click', function () {
+                preview();
+            });
+
+            function preview() {
+                $('form').find("input, textarea, select").each(function (ev) {
+                    $(this).attr("data-placeholder", $(this).attr("placeholder"));
+                    $(this).attr("placeholder", "");
+                    $(this).parent().find('i').css({'display':'none'});
+                    $(this).addClass("preview");
+                    $(this).attr("disabled", true);
+                });
+            }
+
+            $('.btn-export').on('click', function () {
+                genPDF();
+            });
+
+            function genPDF() {
+                if ($('#radio-a').is(':checked'))
+                    preview();
+
+                html2canvas(document.querySelector("form"), {
+                    width: 656 + 50,
+                    height: 844 + 100,
+                    y: 100,
+                }).then(function (canvas) {
+                    var imgData = canvas.toDataURL('image/png');
+                    console.log('Report Image URL: ' + imgData);
+                    var doc = new jsPDF();
+                    doc.addImage(imgData, 'PNG', 19, 0);
+                    doc.save('facture.pdf');
+
+                    if ($('#radio-a').is(':checked'))
+                        edit();
+                });
+            }
+        });
     </script>
 
     <script>
+        $('.btn-save').on('click', function () {
+            $('#facture_save').trigger('click');
+        })
+
+        function checkWidth() {
+            var windowsize = $(window).width();
+            console.log(windowsize);
+            if (windowsize > 1350) {
+                $('.btn-bar .btn-round').each(function() {
+                    $(this).attr("data-position", "top");
+                });
+            }
+            else {
+                $('.btn-bar .btn-round').each(function() {
+                    $(this).attr("data-position", "left");
+                });
+            }
+        }
+        checkWidth();
+        $(window).resize(checkWidth);
+    </script>
+
+    <script>
+        jQuery(document).ready(function () {
+            $('.js-datepicker').datepicker({
+                language: 'fr',
+                onSelect: function (formattedDate, date, inst) {
+                    $this = $(inst).attr('el');
+                    if ($($this).parent().hasClass('resizing-input')) 
+                        resizeForText.call($this, formattedDate);
+                    
+                    setDateCopy.call($this, formattedDate);
+                }
+            });
+        });
+
         /* Input resize
 	    ================= */
-        $(window).on('load', function() {
-            var $inputs = $('.resizing-input');
-            var padding = 30;
+        var $inputs = $('.resizing-input');
+        var padding = 30;
 
-            // Resize based on text if text.length > 0
-            // Otherwise resize based on the placeholder
-            function resizeForText(text) {
-                var $this = $(this);
-                if (!text.trim()) {
-                    text = $this.attr('placeholder').trim();
-                }
-                var $span = $this.parent().find('span');
-                $span.text(text);
-                var $inputSize = $span.outerWidth();
-                $this.css("width", $inputSize).css("width", "+=" + padding + "px");
-            }
+        $(window).on('load', function () {
 
             $inputs.find('input').keypress(function (e) {
                 if (e.which && e.charCode) {
@@ -282,6 +372,19 @@
                 resizeForText.call($this, $this.val())
             });
         });
+
+        // Resize based on text if text.length > 0
+        // Otherwise resize based on the placeholder
+        function resizeForText(text) {
+            var $this = $(this);
+            if (! text.trim()) {
+                text = $this.attr('placeholder').trim();
+            }
+            var $span = $this.parent().find('span');
+            $span.text(text);
+            var $inputSize = $span.outerWidth();
+            $this.css("width", $inputSize).css("width", "+=" + padding + "px");
+        }
     </script>
 
     <script>
@@ -301,7 +404,7 @@
             var newForm = prototype.replace(/__name__/g, index);
             $collectionHolder.data('index', index + 1);
             var newFormLi = $('<div class="inv__row"></div>').append(newForm);
-            //newFormLi.append('<a class="hidden remove-tag"><span class="fa fa-times"></span></a>');
+            // newFormLi.append('<a class="hidden remove-tag"><span class="fa fa-times"></span></a>');
             $collectionHolder.append(newFormLi);
         }
         $("form").on("click", ".remove-tag", function (e) {
@@ -309,27 +412,31 @@
             $(this).parent().remove();
             return false;
         });
-
     </script>
 
     <script>
-        if ($('.inv__row').length == 0)
+        if ($('.inv__row').length == 0) 
             addTagForm($collectionHolder);
-        $('.list-wrapper').on('keyup', '.inv__row input', function() {
+        
+
+        $('.list-wrapper').on('keyup', '.inv__row input', function () {
             setAmount();
             addRemove(this);
-            //TODO: ne pas créer une nouvelle ligne si une vide
-            if ($(this).parents('.inv__row').index() + 1 == $('.inv__row').length)
+            // TODO: ne pas créer une nouvelle ligne si une vide
+            if ($(this).parents('.inv__row').index() + 1 == $('.inv__row').length) 
                 addTagForm($collectionHolder);
+            
+
+
         });
-        $('#facture_VAT').on('keyup', function() {
+        $('#facture_VAT').on('keyup', function () {
             setAmount();
         });
 
         function addRemove(e) {
             let card = $(e).parents('.inv__row');
             card.find('.remove-tag').addClass('hidden');
-            card.find('input').each(function(index) {
+            card.find('input').each(function (index) {
                 if ($(this).val() != '') {
                     card.find('.remove-tag').removeClass('hidden');
                     return false;
@@ -343,7 +450,7 @@
 
         function setAmount() {
             let sub_total = 0;
-            $('.inv__card').each(function(index) {
+            $('.inv__card').each(function (index) {
                 let unit = $(this).find('.unit').val();
                 let price = $(this).find('.price').val();
                 sub_total += (price * unit);
@@ -358,6 +465,40 @@
 
         /* Auto fill <Récapitulatives> input
 	    ================= */
-    </script>
+        window.onload = function () {
+            setCopy();
+        };
 
+        function setCopy() {
+            $('#facture_myCompany_copy').val($('#facture_myCompany').val());
+            $('#facture_clientCompany_copy').val($('#facture_clientCompany').val());
+            $('#facture_dueDate_copy').val($('#facture_dueDate').val());
+            $('#facture_invoiceDate_copy').val($('#facture_invoiceDate').val());
+        }
+
+        $('#facture_myCompany').on('keyup', function () {
+            $('#facture_myCompany_copy').val($(this).val());
+        });
+        $('#facture_clientCompany').on('keyup', function () {
+            $('#facture_clientCompany_copy').val($(this).val());
+        });
+
+        function setDateCopy(formattedDate) {
+            id = $($this).attr('id');
+            if (id == 'facture_invoiceDate') 
+                $('#facture_invoiceDate_copy').val(formattedDate);
+            
+            if (id == 'facture_dueDate') 
+                $('#facture_dueDate_copy').val(formattedDate);
+            
+            if (id == 'facture_invoiceDate_copy') {
+                $('#facture_invoiceDate').val(formattedDate);
+                resizeForText.call($('#facture_invoiceDate'), formattedDate);
+            }
+            if (id == 'facture_dueDate_copy') {
+                $('#facture_dueDate').val(formattedDate);
+                resizeForText.call($('#facture_dueDate'), formattedDate);
+            }
+        }
+    </script>
 {% endblock %}

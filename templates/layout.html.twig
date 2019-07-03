@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <nav class="inv__navbar">
+        <div class="title">Qwetle</div>
+        <div class="switch switch--horizontal">
+            <input checked="checked" id="radio-a" name="swap" type="radio"/>
+            <label for="radio-a">Editer</label>
+            <input id="radio-b" name="swap" type="radio"/>
+            <label for="radio-b">Aperçu</label>
+            <span class="toggle-outside">
+                <span class="toggle-inside"></span>
+            </span>
+        </div>
+    </nav>
+
+    {% block page_content %}{% endblock %}
+
+{% endblock %}

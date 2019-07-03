@@ -211,6 +211,21 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     margin: 0;
 }
 
+textarea.input {
+    height: 30px;
+    padding: 7px 15px 0 15px;
+}
+
+.preview {
+    background: transparent;
+    padding: 0;
+}
+
+textarea.preview {
+    resize: none;
+    padding: 7px 0 0 0;
+}
+
 .resizing-input input, .resizing-input span {
     font-size: 14px;
     font-family: Ubuntu-Bold;
@@ -514,6 +529,7 @@ label {
 /*-------------------- INDEX -------------------------*/
 
 .index__fluid {
+    padding-top: 64px;
     height: 100vh;
     background-color: #F172A1;
 }
@@ -562,7 +578,7 @@ label {
     display: flex;
     flex-flow: row;
     bottom: 50px;
-    right: 20px;
+    right: 100px;
 }
 
 .btn-round {
@@ -572,7 +588,9 @@ label {
     background-color: #F0EBF4;
     border-radius: 50%;
     margin-right: 10px;
+    margin-bottom: 10px;
     transition: 0.3s ease;
+    border: 2px solid #F172A1;
 }
 
 .btn-round:hover {
@@ -587,7 +605,15 @@ label {
     border-color: #8c8c8c;
 }
 
+@media screen and (max-width: 1350px) {
+    .btn-bar {
+        flex-flow: column;
+        right: 15   px;
+    }
+}
+
 .inv__fluid {
+    padding-top: 64px;
     background-color: #F172A1;
     min-height: 100vh;
 }
@@ -687,11 +713,6 @@ label {
     width: 100%;
 }
 
-.inv__description textarea, .inv__terms textarea {
-    height: 30px;
-    padding: 7px 15px 0 15px;
-}
-
 .list-wrapper {
     width: 100%;
     margin-bottom: 5px;
@@ -779,8 +800,9 @@ label {
 .inv__card input {
     background-color: transparent;
     border-radius: 0;
-    border-bottom: 1px #E64398 dashed;
-    padding: 0 15px 0 15px;
+    border: 1px white dashed;
+    border-bottom-color: #E64398;
+    /* padding: 0 15px 0 15px; */
 }
 
 .inv__card div:not(:first-child) input {
@@ -819,4 +841,267 @@ label {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+}
+
+/*-------------------- TOOLTIP -------------------------*/
+
+button[data-tooltip].top:before, button[data-tooltip].top:after {
+    transform: translateY(10px);
+}
+
+button[data-tooltip].top:hover:after, button[data-tooltip].top:hover:before {
+    transform: translateY(0px);
+}
+
+button[data-tooltip].right:before, button[data-tooltip].right:after {
+    transform: translateX(0px);
+}
+
+button[data-tooltip].right:hover:after, button[data-tooltip].right:hover:before {
+    transform: translateX(10px);
+}
+
+button[data-tooltip].bottom:before, button[data-tooltip].bottom:after {
+    transform: translateY(-10px);
+}
+
+button[data-tooltip].bottom:hover:after, button[data-tooltip].bottom:hover:before {
+    transform: translateY(0px);
+}
+
+button[data-tooltip].left:before, button[data-tooltip].left:after {
+    transform: translateX(0px);
+}
+
+button[data-tooltip].left:hover:after, button[data-tooltip].left:hover:before {
+    transform: translateX(-10px);
+}
+
+button[data-tooltip] {
+    position: relative;
+}
+
+button[data-tooltip]:after, button[data-tooltip]:before {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transition: transform 200ms ease, opacity 200ms;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 99;
+}
+
+button[data-tooltip]:before {
+    content: attr(data-tooltip);
+    background: #000;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    white-space: nowrap;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button[data-tooltip]:after {
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    content: '';
+}
+
+button[data-tooltip]:hover:after, button[data-tooltip]:hover:before {
+    visibility: visible;
+    opacity: 0.85;
+    transform: translateY(0px);
+}
+
+button[data-tooltip][data-position="top"]:before {
+    bottom: 100%;
+    left: -30%;
+    margin-bottom: 10px;
+}
+
+button[data-tooltip][data-position="top"]:after {
+    border-top-color: #000;
+    border-bottom: none;
+    bottom: 101%;
+    left: calc(50% - 6px);
+    margin-bottom: 4px;
+}
+
+button[data-tooltip][data-position="left"]:before {
+    top: 0%;
+    right: 100%;
+    margin-right: 10px;
+}
+
+button[data-tooltip][data-position="left"]:after {
+    border-left-color: #000;
+    border-right: none;
+    top: calc(50% - 3px);
+    right: 100%;
+    margin-top: -6px;
+    margin-right: 4px;
+}
+
+button[data-tooltip][data-position="right"]:before {
+    top: -5%;
+    left: 100%;
+    margin-left: 10px;
+}
+
+button[data-tooltip][data-position="right"]:after {
+    border-right-color: #000;
+    border-left: none;
+    top: calc(50% - 6px);
+    left: calc(100% + 4px);
+}
+
+button[data-tooltip][data-position="bottom"]:before {
+    top: 100%;
+    left: -130%;
+    margin-top: 10px;
+}
+
+button[data-tooltip][data-position="bottom"]:after {
+    border-bottom-color: #000;
+    border-top: none;
+    top: 100%;
+    left: 5px;
+    margin-top: 4px;
+}
+
+/*-------------------- SWITCH -------------------------*/
+
+.switch {
+    margin: 4rem auto;
+}
+
+/* main styles */
+
+.switch {
+    display: flex;
+    align-items: center;
+    width: 24rem;
+    position: relative;
+}
+
+.switch input {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.switch input:checked {
+    z-index: 1;
+}
+
+.switch input:checked+label {
+    opacity: 1;
+    cursor: default;
+}
+
+.switch input:not(:checked)+label:hover {
+    opacity: 0.5;
+}
+
+.switch label {
+    color: #fff;
+    opacity: 0.33;
+    transition: opacity 0.25s ease;
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.switch .toggle-outside {
+    height: 75%;
+    border-radius: 2rem;
+    padding: 0.25rem;
+    overflow: hidden;
+    transition: 0.25s ease all;
+}
+
+.switch .toggle-inside {
+    border-radius: 5rem;
+    background: #4a4a4a;
+    position: absolute;
+    transition: 0.25s ease all;
+}
+
+.switch--horizontal {
+    width: 18rem;
+    height: 3rem;
+    margin: 0;
+    font-size: 0;
+}
+
+.switch--horizontal input {
+    height: 3rem;
+    width: 5.4rem;
+    left: 6rem;
+    margin: 0;
+}
+
+.switch--horizontal label {
+    font-size: 1.5rem;
+    line-height: 3rem;
+    display: inline-block;
+    width: 6rem;
+    height: 100%;
+    margin: 0;
+    text-align: center;
+}
+
+.switch--horizontal label:last-of-type {
+    margin-left: 6rem;
+}
+
+.switch--horizontal .toggle-outside {
+    background: #fff;
+    position: absolute;
+    width: 5.4rem;
+    left: 6rem;
+}
+
+.switch--horizontal .toggle-inside {
+    height: 1.8rem;
+    width: 1.8rem;
+}
+
+.switch--horizontal input:checked~.toggle-outside .toggle-inside {
+    left: 0.25rem;
+}
+
+.switch--horizontal input~input:checked~.toggle-outside .toggle-inside {
+    left: 3.25rem;
+}
+
+/*-------------------- NAVBAR -------------------------*/
+
+.inv__navbar {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 100px;
+    height: 64px;
+    margin: 0;
+    background-color: currentColor;
+    border: none;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .5);
+    z-index: 99;
+}
+
+.title {
+    font-size: 2rem;
+    line-height: 3rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
