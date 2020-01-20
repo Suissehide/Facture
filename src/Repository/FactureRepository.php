@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Facture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Facture|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +14,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class FactureRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Facture::class);
     }
@@ -39,7 +39,18 @@ class FactureRepository extends ServiceEntityRepository
         }
         if ($sort) {
             foreach ($sort as $key => $value) {
-                $qb->orderBy('p.' . $key, $value);
+                if ($key == 'entreprise')
+                    $qb->orderBy('p.myCompany', $value);
+                else if ($key == 'client')
+                    $qb->orderBy('p.clientCompany', $value);
+                else if ($key == 'facturation')
+                    $qb->orderBy('p.invoiceDate', $value);
+                else if ($key == 'echeance')
+                    $qb->orderBy('p.dueDate', $value);
+                else if ($key == 'description')
+                    $qb->orderBy('p.projectDescription', $value);
+                else
+                    $qb->orderBy('p.' . $key, $value);
             }
         } else {
             $qb->orderBy('p.dueDate', 'ASC');
