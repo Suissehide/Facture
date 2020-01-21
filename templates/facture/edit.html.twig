@@ -1,7 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %}Facture
-{% endblock %}
+{% block title %}Facture {% if facture.id %}- {{facture.id}}{% endif %}{% endblock %}
 
 {% block stylesheets %}{% endblock %}
 
@@ -265,8 +264,14 @@
             <button class="btn-round btn-export" data-position="top" data-tooltip="Exporter">
                 <i class="fas fa-file-export"></i>
             </button>
+            {% if facture.id %}
+                <button class="btn-round btn-delete" data-position="top" data-tooltip="Supprimer">
+                    <i aria-hidden="true" class="fas fa-trash"></i>
+                </button>
+            {% endif %}
         </div>
     </div>
+    {% if facture.id %} {{ include('facture/_delete_form.html.twig') }} {% endif %}
 {% endblock %}
 
 {% block javascripts %}
@@ -320,7 +325,7 @@
                     y: 100,
                 }).then(function (canvas) {
                     var imgData = canvas.toDataURL('image/png');
-                    console.log('Report Image URL: ' + imgData);
+                    {# console.log('Report Image URL: ' + imgData); #}
                     var doc = new jsPDF();
                     doc.addImage(imgData, 'PNG', 19, 0);
                     doc.save('facture.pdf');
@@ -337,9 +342,12 @@
             $('#facture_save').trigger('click');
         })
 
+        $(".btn-delete").on('click', function() {
+            $('#form-delete').submit();
+        })
+
         function checkWidth() {
             var windowsize = $(window).width();
-            console.log(windowsize);
             if (windowsize > 1350) {
                 $('.btn-bar .btn-round').each(function() {
                     $(this).attr("data-position", "top");

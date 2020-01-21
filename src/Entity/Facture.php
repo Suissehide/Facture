@@ -75,7 +75,7 @@ class Facture
     private $invoiceTerms;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Description", mappedBy="facture", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Description", mappedBy="facture", cascade={"persist", "remove"})
      */
     private $descriptions;
 

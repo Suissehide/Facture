@@ -354,7 +354,7 @@ td .btn-default {
     line-height: 1.4;
 }
 
-.table-striped>tbody>tr:nth-of-type(odd) {
+.table-striped>tbody>tr:nth-of-type(even) {
     background-color: #f8f6ff;
 }
 
@@ -933,7 +933,7 @@ button[data-tooltip][data-position="top"]:after {
 }
 
 button[data-tooltip][data-position="left"]:before {
-    top: 0%;
+    top: 6px;
     right: 100%;
     margin-right: 10px;
 }
@@ -941,7 +941,7 @@ button[data-tooltip][data-position="left"]:before {
 button[data-tooltip][data-position="left"]:after {
     border-left-color: #000;
     border-right: none;
-    top: calc(50% - 3px);
+    top: calc(50% - 0px);
     right: 100%;
     margin-top: -6px;
     margin-right: 4px;

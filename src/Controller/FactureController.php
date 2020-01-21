@@ -13,6 +13,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FactureController extends AbstractController
 {
+
+    /**
+     * @Route("/facture/{id}", name="facture_delete", methods="DELETE")
+     */
+    public function delete(Request $request, Facture $facture) : Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $facture->getId(), $request->request->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($facture);
+            $em->flush();
+        }
+        return $this->redirectToRoute('index');
+    }
+
     /**
      * @Route("/", name="index")
      */
@@ -60,8 +74,8 @@ class FactureController extends AbstractController
                     "id" => $facture->getId(),
                     "entreprise" => $facture->getMyCompany(),
                     "client" => $facture->getClientCompany(),
-                    "echeance" => $this->dateToFrench(date_format($facture->getDueDate(), 'y-m-d'), 'l j F Y'),
-                    "facturation" => $this->dateToFrench(date_format($facture->getInvoiceDate(), 'y-m-d'), 'l j F Y'),
+                    "echeance" => $facture->getDueDate() ? $this->dateToFrench(date_format($facture->getDueDate(), 'y-m-d'), 'l j F Y') : '',
+                    "facturation" => $facture->getInvoiceDate() ? $this->dateToFrench(date_format($facture->getInvoiceDate(), 'y-m-d'), 'l j F Y')  : '',
                     "description" => $facture->getProjectDescription(),
                 );
                 array_push($rows, $row);
@@ -97,6 +111,7 @@ class FactureController extends AbstractController
 
         return $this->render('facture/edit.html.twig', [
             'controller_name' => 'FactureController',
+            'facture' => $facture,
             'form' => $form->createView(),
         ]);
     }
@@ -119,6 +134,7 @@ class FactureController extends AbstractController
 
         return $this->render('facture/edit.html.twig', [
             'controller_name' => 'FactureController',
+            'facture' => $facture,
             'form' => $form->createView(),
         ]);
     }
